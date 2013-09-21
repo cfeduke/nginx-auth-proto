@@ -1,0 +1,6 @@
+#!/bin/bash
+
+nginx -s stop
+nginx -c `pwd`/nginx.conf
+
+shotgun
