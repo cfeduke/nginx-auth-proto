@@ -1,8 +1,14 @@
 require 'sinatra/base'
 
 class Auth < Sinatra::Base
+
+  set :logging, true
+
   get '/auth' do
-    if request.query_string == "id=secret"
+    # nginx's X-Original-URI (from nginx.conf) is mapped to 'HTTP_X_ORIGINAL_URI' in Sinatra
+    original_uri = request.env['HTTP_X_ORIGINAL_URI']
+    logger.info "original_uri: #{original_uri}"
+    if original_uri == "/?id=secret"
       logger.info "successful authentication"
       status 200
       body 'success'
